@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       path:'/',
     });
 
-    return Response.json({ token }, { status: 201 });
+    return Response.json({ user:user }, { status: 201 });
 
   } catch (error) {
   if (

@@ -32,25 +32,6 @@ export default function Login() {
   const authContext = useAuth();
   const elementRef = useRef<HTMLElement[]>([]);
 
-  async function testRegister(){
-        
-        const res = await fetch('/api/auth/login',{
-            method:'POST',
-           headers:{
-            "Content-Type":'application/json'
-           }
-           ,
-           body : JSON.stringify({
-            email:inInfo.email,
-            password:inInfo.password
-           })
-        }
-        );
-
-        const data = await res.json();
-        console.log(data);
-   }
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       ScrollTrigger.batch(elementRef.current, {
@@ -70,7 +51,7 @@ export default function Login() {
   },[mode]);
 
   if (!authContext) return;
-  const { inInfo, setInInfo } = authContext;
+  const { inInfo, setInInfo,login,loading } = authContext;
 
   return (
     <Box
@@ -271,10 +252,9 @@ export default function Login() {
             <Button
               fullWidth
               variant="contained"
-              onClick={async () => {
-                console.log(inInfo);
-                 await testRegister();
-              }}
+              onClick={login}
+              loading={loading}
+              loadingPosition="start"
             >
               Login
             </Button>

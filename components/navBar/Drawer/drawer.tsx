@@ -16,6 +16,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import InfoIcon from "@mui/icons-material/Info";
 import { redirect } from "next/navigation";
+import { useAuth } from "../../../context/authContext";
 
 export default function DrawerN({
   open,
@@ -28,6 +29,8 @@ export default function DrawerN({
   sellected: string;
   setSellected: (sellected: string) => void;
 }) {
+  const authContext = useAuth();
+
   const options = [
     {
       title: "Home",
@@ -74,6 +77,8 @@ export default function DrawerN({
       ),
     },
   ];
+  if (!authContext) return;
+  const { loading, logOut, user } = authContext;
 
   return (
     <Box
@@ -182,7 +187,7 @@ export default function DrawerN({
                     sellected === option.title ? "solid 0.5px #0044ff" : "",
                   position: "relative",
                   overflow: "hidden",
-                  color:'white',
+                  color: "white",
                   "&:after": {
                     content: '""',
                     width: "5px",
@@ -214,12 +219,48 @@ export default function DrawerN({
             }}
           >
             <ModeButton />
-            <Button variant="outlined" color="secondary" fullWidth onClick={()=>{redirect('/Auth/login')}} sx={{bgcolor:'#0e1b55c1'}}>
-              Login
-            </Button>
-            <Button variant="contained" fullWidth onClick={()=>{redirect('/Auth/register')}}>
-              Register
-            </Button>
+            {loading ? (
+              <Button
+                loading={loading}
+                loadingPosition="start"
+                variant="outlined"
+                color="secondary"
+              >
+                loading●●●
+              </Button>
+            ) : !user ? (
+              <>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="secondary"
+                  sx={{
+                    border:'solid 2px',
+                    fontWeight:700,
+                    color:'#0091ff'
+                  }}
+                  onClick={() => {
+                    redirect("/Auth/login");
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    redirect("/Auth/register");
+                  }}
+                >
+                  Register
+                </Button>
+              </>
+            ) : (
+              <Button variant="contained" color="primary" onClick={logOut}>
+                LogOut
+              </Button>
+            )}
           </Stack>
         </ListItem>
       </Drawer>

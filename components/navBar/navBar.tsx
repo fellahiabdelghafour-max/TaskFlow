@@ -6,6 +6,7 @@ import ModeButton from "../MButton/MButton";
 import DrawerN from "./Drawer/drawer";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import { useAuth } from "../../context/authContext";
 
 const options = [
   { title: "Home" },
@@ -14,6 +15,7 @@ const options = [
   { title: "How it work" },
 ];
 export default function NavBar() {
+  const authContext = useAuth();
   const [open, setOpen] = useState(false);
   const [sellected, setSellected] = useState<string>("Home");
   const [blur, setBlur] = useState(false);
@@ -22,13 +24,16 @@ export default function NavBar() {
       if (typeof window !== "undefined") {
         setBlur(window.scrollY >= 10);
       }
-      onscroll = () => {
+      onscroll = async () => {
         if (typeof window !== "undefined") {
           setBlur(window.scrollY >= 10);
         }
       };
     }
   }, []);
+  if (!authContext) return;
+
+  const { loading, user ,logOut} = authContext;
 
   return (
     <Box
@@ -120,24 +125,34 @@ export default function NavBar() {
       >
         <ModeButton />
 
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => {
-            redirect("/Auth/login");
-          }}
-        >
-          Login
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            redirect("/Auth/register");
-          }}
-        >
-          Register
-        </Button>
+        {loading ? (
+          <Button loading={loading} loadingPosition="start" variant="outlined" color="secondary">loading●●●</Button>
+        ) : !user ? (
+          <>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                redirect("/Auth/login");
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                redirect("/Auth/register");
+              }}
+            >
+              Register
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" color="primary" onClick={logOut}>
+            LogOut
+          </Button>
+        )}
       </Stack>
 
       <DrawerN

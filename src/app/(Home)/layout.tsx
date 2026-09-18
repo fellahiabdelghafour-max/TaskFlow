@@ -3,6 +3,9 @@ import AppTheme from "../../../theme";
 import "../globals.css";
 import ModeProvider from "../../../context/mode";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import AuthProvider from "../../../context/authContext";
+import SnackBar from "../../../components/snackBar/snackBar";
+import ScnackBarProvider from "../../../context/snackBarContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +21,16 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppRouterCacheProvider>
-          <ModeProvider>
-            <AppTheme>{children}</AppTheme>
-          </ModeProvider>
+          <ScnackBarProvider>
+            <ModeProvider>
+              <AppTheme>
+                <AuthProvider>
+                  <SnackBar />
+                  {children}
+                </AuthProvider>
+              </AppTheme>
+            </ModeProvider>
+          </ScnackBarProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

@@ -7,6 +7,7 @@ import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useAuth } from "../../context/authContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,7 @@ export default function Reviews() {
   const [index, setIndex] = useState(0);
   const [divider, setDivider] = useState(1);
   const stopTouch = useRef<boolean>(false);
+  const authContext = useAuth();
   const indexes =
     Math.ceil(testimonials.length / divider) > 5
       ? 5
@@ -52,6 +54,9 @@ export default function Reviews() {
       ctx.revert();
     };
   }, [divider, indexes]);
+
+  if (!authContext) return;
+  const { loading, user } = authContext;
 
   return (
     <Box
@@ -262,7 +267,7 @@ export default function Reviews() {
             elementRef.current[8] = e;
           }
         }}
-        sx={{width:'100%'}}
+        sx={{ width: "100%" }}
       >
         <Card
           sx={{
@@ -274,10 +279,10 @@ export default function Reviews() {
             flexDirection: { xs: "column", sm: "column", md: "row" },
             alignItems: "center",
             justifyContent: { xs: "center", sm: "center", md: "space-between" },
-            gap:6
+            gap: 6,
           }}
         >
-          <Stack spacing={{xs:3,sm:3,md:1}}>
+          <Stack spacing={{ xs: 3, sm: 3, md: 1 }}>
             <Typography
               className="special-title"
               sx={{
@@ -305,7 +310,9 @@ export default function Reviews() {
             </Typography>
           </Stack>
           <Stack direction={"row"} spacing={1}>
-            <Button variant="contained">Register Now</Button>
+            <Button variant="contained" sx={{ display: user ? "none" : "" }} loading= {loading}>
+              Register Now
+            </Button>
             <Button href="#Home" variant="outlined" color="secondary">
               Learn More
             </Button>

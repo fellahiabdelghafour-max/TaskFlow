@@ -4,17 +4,24 @@ import ModeProvider from "../../../context/mode";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import "../globals.css";
 import AuthProvider from "../../../context/authContext";
+import ScnackBarProvider from "../../../context/snackBarContext";
+import SnackBar from "../../../components/snackBar/snackBar";
 
 export default function Auth({ children }: { children: ReactNode }) {
   return (
     <html>
       <body>
         <AppRouterCacheProvider>
-          <ModeProvider>
-            <AppTheme>
-              <AuthProvider>{children}</AuthProvider>{" "}
-            </AppTheme>
-          </ModeProvider>
+          <ScnackBarProvider>
+            <ModeProvider>
+              <AppTheme>
+                <AuthProvider>
+                  <SnackBar />
+                  {children}
+                </AuthProvider>
+              </AppTheme>
+            </ModeProvider>
+          </ScnackBarProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

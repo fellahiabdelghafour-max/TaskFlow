@@ -33,26 +33,6 @@ export default function Register() {
   const authContext = useAuth();
   const elementRef = useRef<HTMLElement[]>([]);
 
-  async function Register(){
-    console.log(upInfo)
-     const res = await fetch('/api/auth/register',
-        {
-            method:'POST',
-            headers:{
-                "Content-Type" : "application/json"
-            },
-            body:JSON.stringify({
-                username:upInfo.username,
-                email: upInfo.email,
-                password:upInfo.password
-            })
-        }
-     );
-
-     const data = await res.json();
-     console.log(data)
-  }
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       ScrollTrigger.batch(elementRef.current, {
@@ -72,7 +52,7 @@ export default function Register() {
   },[mode]);
 
   if (!authContext) return;
-  const { upInfo, setUpInfo } = authContext;
+  const { upInfo, setUpInfo,register,loading } = authContext;
 
   return (
     <Box
@@ -275,7 +255,9 @@ export default function Register() {
             <Button
               fullWidth
               variant="contained"
-              onClick={Register}
+              onClick={register}
+              loading={loading} 
+              loadingPosition="start"
             >
               Create Account
             </Button>

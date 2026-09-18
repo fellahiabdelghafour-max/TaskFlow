@@ -28,6 +28,17 @@ model User{
      image Bytes?
      todos Todo[]
      reviews Review[]
+     profile Profile?
+
+}
+
+model Profile {
+  id String @id @default(uuid())
+  emailVerified Boolean @default(false)
+  bio String ?
+  location String ?
+  userId String @unique
+  author User @relation(fields: [userId],references: [id])
 }
 
 model Todo {

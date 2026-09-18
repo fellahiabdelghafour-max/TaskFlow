@@ -32,6 +32,6 @@ export async function POST(Reqeust : Request){
       path:'/',
     });
 
-    return Response.json({token:token},{status:200});
+    return Response.json({user:user},{status:200});
 
 }
