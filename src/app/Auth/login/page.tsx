@@ -15,11 +15,11 @@ import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useState, useEffect, useRef } from "react";
-import ModeButton from "../../../../components/MButton/MButton";
+import ModeButton from "../../../../components/Home/MButton/MButton";
 import Link from "next/link";
 
 import { useModeContext } from "../../../../context/mode";
-import { useAuth } from "../../../../context/authContext";
+import { useAuth } from "../../../../context/auth";
 
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -48,10 +48,10 @@ export default function Login() {
       });
     });
     return () => ctx.revert();
-  },[mode]);
+  }, [mode]);
 
   if (!authContext) return;
-  const { inInfo, setInInfo,login,loading } = authContext;
+  const { inInfo, setInInfo, login, loading } = authContext;
 
   return (
     <Box

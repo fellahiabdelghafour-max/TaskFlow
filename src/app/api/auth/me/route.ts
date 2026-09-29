@@ -11,10 +11,22 @@ export async function GET() {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {id:string};
-    const user = await prisma.user.findUnique({where:{id:decoded.id}});
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+    };
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        emailVerified: true,
+        image: true,
+        role: true,
+      },
+    });
     return Response.json(
-      {user:user, authenticated: true, userId: decoded.id },
+      { user: user, authenticated: true, userId: decoded.id },
       { status: 200 },
     );
   } catch {

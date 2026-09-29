@@ -16,11 +16,11 @@ import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useState, useEffect, useRef } from "react";
-import ModeButton from "../../../../components/MButton/MButton";
+import ModeButton from "../../../../components/Home/MButton/MButton";
 import Link from "next/link";
 
 import { useModeContext } from "../../../../context/mode";
-import { useAuth } from "../../../../context/authContext";
+import { useAuth } from "../../../../context/auth";
 
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -49,10 +49,10 @@ export default function Register() {
       });
     });
     return () => ctx.revert();
-  },[mode]);
+  }, [mode]);
 
   if (!authContext) return;
-  const { upInfo, setUpInfo,register,loading } = authContext;
+  const { upInfo, setUpInfo, register, loading } = authContext;
 
   return (
     <Box
@@ -60,7 +60,7 @@ export default function Register() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        minHeight:'100vh'
+        minHeight: "100vh",
       }}
     >
       <Stack
@@ -256,7 +256,7 @@ export default function Register() {
               fullWidth
               variant="contained"
               onClick={register}
-              loading={loading} 
+              loading={loading}
               loadingPosition="start"
             >
               Create Account
@@ -284,29 +284,31 @@ export default function Register() {
               }
             }}
           >
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 2,
-                alignItems: "center",
-                fontSize: { xs: 15, sm: 15, md: 20, lg: 20 },
-                fontWeight: 500,
-                color: "text.secondary",
-                borderColor: "#364b71",
-                bgcolor: "background.paper",
-              }}
-            >
-              <Image
-                alt="google_Icon"
-                src="/images/google.png"
-                height={20}
-                width={20}
-              />
-              Google
-            </Button>
+            <div className="animatedBorder">
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 2,
+                  alignItems: "center",
+                  fontSize: { xs: 15, sm: 15, md: 20, lg: 20 },
+                  fontWeight: 500,
+                  color: "text.secondary",
+                  borderColor: "#364b71",
+                  bgcolor: "background.paper",
+                }}
+              >
+                <Image
+                  alt="google_Icon"
+                  src="/images/google.png"
+                  height={20}
+                  width={20}
+                />
+                Google
+              </Button>
+            </div>
           </Box>
 
           <Typography

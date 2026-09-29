@@ -21,23 +21,23 @@ export async function POST(req: Request) {
     );
   }
 
-  if(!usernameRegex.test(username)){
-          return Response.json(
+  if (!usernameRegex.test(username)) {
+    return Response.json(
       { message: "Username must contain at least 3 characters" },
       { status: 400 },
     );
   }
 
-    if(!emailRegex.test(email)){
-          return Response.json(
-      { message: "Invalid email" },
-      { status: 400 },
-    );
+  if (!emailRegex.test(email)) {
+    return Response.json({ message: "Invalid email" }, { status: 400 });
   }
 
-      if(!passwordRegex.test(password)){
-          return Response.json(
-      { message: "Password must be exactly 8 characters and contain lowercase, uppercase, a digit, and a symbol" },
+  if (!passwordRegex.test(password)) {
+    return Response.json(
+      {
+        message:
+          "Password must be exactly 8 characters and contain lowercase, uppercase, a digit, and a symbol",
+      },
       { status: 400 },
     );
   }
@@ -56,30 +56,27 @@ export async function POST(req: Request) {
       expiresIn: "1w",
     });
 
-    CookieStore.set('token',token,{
-      httpOnly:true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge:60*60*24*7,
-      sameSite:'lax',
-      path:'/',
+    CookieStore.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      path: "/",
     });
+    const { password: _, ...safeUser } = user;
 
-    return Response.json({ user:user }, { status: 201 });
-
+    return Response.json({ user: safeUser }, { status: 201 });
   } catch (error) {
-  if (
-    error instanceof Prisma.PrismaClientKnownRequestError &&
-    error.code === "P2002"
-  ) {
-    return Response.json(
-      { message: "Username or email already exists" },
-      { status: 409 }
-    );
-  }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return Response.json(
+        { message: "Username or email already exists" },
+        { status: 409 },
+      );
+    }
 
-  return Response.json(
-    { message: "Internal server error" },
-    { status: 500 }
-  );
+    return Response.json({ message: "Internal server error" }, { status: 500 });
   }
 }
