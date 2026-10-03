@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow
+
+TaskFlow is a full-stack task management application built with Next.js, TypeScript, PostgreSQL, and Prisma. The app is designed to help users organize tasks, manage workflows, and keep track of progress through a modern, responsive interface.
+
+## Overview
+
+This project is part of a journey toward building production-ready full-stack applications. It combines frontend user experience with database-backed logic and scalable backend architecture.
+
+## Tech Stack
+
+- Next.js
+- TypeScript
+- PostgreSQL
+- Prisma
+- React
+- MUI
+- GSAP
+- Express.js
+
+## Project Goals
+
+- Build a clean and usable task management experience
+- Create a production-ready full-stack application architecture
+- Learn and apply modern backend development practices
+- Improve database design, authentication, and deployment workflows
+
+## About the Developer
+
+I’m a developer focused on web development and full-stack engineering, with a strong interest in React, Next.js, TypeScript, PostgreSQL, Prisma, and modern application architecture.
+
+I’m currently learning and improving in:
+
+- TypeScript
+- Next.js
+- PostgreSQL
+- Prisma
+- Backend development
+- Authentication and authorization
+- Deployment and production readiness
+
+I enjoy building modern web applications and collaborating on open-source and full-stack projects.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file and configure your database connection and app settings as needed for your environment.
 
-## Learn More
+Example:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+DATABASE_URL="postgresql://username:password@localhost:5432/taskflow"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is designed to be deployable on modern hosting platforms such as Vercel, with a PostgreSQL database configured for production use.
 
-## Deploy on Vercel
+## Contact / Collaboration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I’m open to collaborating on web development and open-source projects, especially full-stack applications.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you’re working on React, Next.js, TypeScript, PostgreSQL, Prisma, or production-ready application architecture, feel free to connect.
