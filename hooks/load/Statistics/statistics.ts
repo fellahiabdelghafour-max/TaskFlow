@@ -1,4 +1,3 @@
-"use server";
 
 export default async function loadS(
   setStatistics: (

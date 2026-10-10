@@ -1,4 +1,3 @@
-   'use server'
    
    export default async function loadP(setTBP:(value: {
     name: "High" | "Medium" | "Low";
