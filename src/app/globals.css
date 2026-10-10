@@ -13,6 +13,9 @@ fontWeight:700
 Normal_Text:
 fontSize:{ xs: "11px", sm: "13px", md: "13px" }
 */
+html {
+  scroll-behavior: smooth;
+}
 
 html,
 body {

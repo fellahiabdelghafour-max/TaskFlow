@@ -41,6 +41,7 @@ export async function POST(Reqeust: Request) {
     path: "/",
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password: _, ...safeUser } = user;
 
   return Response.json({ user: safeUser }, { status: 200 });

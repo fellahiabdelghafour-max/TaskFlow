@@ -6,6 +6,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import AuthProvider from "../../../context/auth";
 import SnackBar from "../../../components/Home/snackBar/snackBar";
 import ScnackBarProvider from "../../../context/snackBarContext";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,17 +14,21 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+      const cookieStore = await cookies();
+      const InitialMode = cookieStore.get('mode')?.value as 'dark' | 'light' ?? 'dark';
+
   return (
     <html lang="en">
       <body>
         <AppRouterCacheProvider>
           <ScnackBarProvider>
-            <ModeProvider>
+            <ModeProvider InitialMode={InitialMode}>
               <AppTheme>
                 <AuthProvider>
                   <SnackBar />

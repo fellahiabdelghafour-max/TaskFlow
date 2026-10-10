@@ -12,19 +12,24 @@ import DashboardProvider from "../../../context/dashboard";
 import NavBar from "../../../components/Dashboard/navBar/navBar";
 import BottomBar from "../../../components/Dashboard/bottomBar/bottomBar";
 import TodosProvider from "../../../context/todos";
+import AddTask from "../../../components/Dashboard/DashboardComponent/AddTask/addTask";
+import { cookies } from "next/headers";
 
-export default function Dashboard({ children }: { children: ReactNode }) {
+export default async function Dashboard({ children }: { children: ReactNode }) {
+    const cookieStore = await cookies();
+    const InitialMode = cookieStore.get('mode')?.value as 'dark' | 'light' ?? 'dark';
   return (
     <html>
       <body>
         <AppRouterCacheProvider>
           <ScnackBarProvider>
-            <ModeProvider>
+            <ModeProvider InitialMode={InitialMode}>
               <AppTheme>
                 <AuthProvider>
                   <DashboardProvider>
                     <TodosProvider>
                     <SnackBar />
+                    <AddTask />
                     <Grid container>
                       <Grid
                         size={{ md: 1, lg: 2 }}

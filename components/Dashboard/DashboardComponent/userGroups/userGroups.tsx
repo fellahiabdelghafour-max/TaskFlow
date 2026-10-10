@@ -22,7 +22,7 @@ export default function Groups() {
           width: "100%",
           height: "100%",
           boxSizing: "border-box",
-          boxShadow: "0px 0px 10px 1px #1f293799",
+          border: "solid 1px #1f29371f",
         }}
         spacing={1}
       >
@@ -32,10 +32,9 @@ export default function Groups() {
         >
           <Typography
             sx={{
-              color: "text.secondary",
-              fontSize: { xs: 20, lg: 26 },
-              fontWeight: 700,
-            }}
+            color: "text.secondary",
+            fontSize: { xs: "11px", sm: "15px", md: "18px" },
+          }}
           >
             My Groups
           </Typography>
@@ -92,7 +91,7 @@ export default function Groups() {
           borderRadius: 2,
           p: 2,
           boxSizing: "border-box",
-          boxShadow: "0px 0px 10px 1px #1f293799",
+          border: "solid 1px #1f29371f",
         }}
       >
         <Stack
@@ -101,10 +100,9 @@ export default function Groups() {
         >
           <Typography
             sx={{
-              color: "text.secondary",
-              fontSize: { xs: 20, lg: 26 },
-              fontWeight: 700,
-            }}
+            color: "text.secondary",
+            fontSize: { xs: "11px", sm: "15px", md: "18px" },
+          }}
           >
             My Groups
           </Typography>
@@ -161,7 +159,7 @@ export default function Groups() {
         width: "100%",
         height: "100%",
         boxSizing: "border-box",
-        boxShadow: "0px 0px 10px 1px #1f293799",
+        border: "solid 1px #1f29371f",
       }}
       spacing={1}
     >
@@ -172,8 +170,7 @@ export default function Groups() {
         <Typography
           sx={{
             color: "text.secondary",
-            fontSize: { xs: 20, lg: 26 },
-            fontWeight: 700,
+            fontSize: { xs: "11px", sm: "15px", md: "18px" },
           }}
         >
           My Groups

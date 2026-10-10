@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useTransition,
 } from "react";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
@@ -12,8 +13,13 @@ import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurned
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import StackedBarChartOutlinedIcon from "@mui/icons-material/StackedBarChartOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useSnackBar } from "./snackBarContext";
+import loadD from "../hooks/load/Details/details";
+import loadG from "../hooks/load/Groups/group";
+import loadP from "../hooks/load/TasksByPriotity/TBP";
+import loadR from "../hooks/load/ResentActivities/resentActivities";
+import loadS from "../hooks/load/Statistics/statistics";
 
 interface StatisticsType {
   day: string;
@@ -21,15 +27,9 @@ interface StatisticsType {
   total: number;
 }
 
-export enum Status {
-  Pending = "Pending",
-  In_Progress = "In_Progress",
-  Completed = "Completed",
-}
-
 interface RecentActivities {
   task: string;
-  status: Status;
+  status:  "Completed" | 'Pending' | 'In_Progress';
   description: string;
   updatedAt: string;
   startsAt: string;
@@ -70,13 +70,13 @@ interface dashboardProps {
   setTaskTitle: (t: string) => void;
   desc: string;
   setDesc: (d: string) => void;
-  startD: Dayjs | null;
-  setStartD: (d: Dayjs | null) => void;
+  startD: Dayjs;
+  setStartD: (d: Dayjs) => void;
   dueD: Dayjs | null;
   setDueD: (d: Dayjs | null) => void;
-  taskPriority: "High" | "Medium" | "Easy";
-  setTaskPriority: (p: "High" | "Medium" | "Easy") => void;
-  AddTask: (setOpenT: (o: boolean) => void) => void;
+  taskPriority: "High" | "Normal" | "Easy";
+  setTaskPriority: (p: "High" | "Normal" | "Easy") => void;
+  AddTask: () => void;
   details: {
     groups: number;
     totalTasks: number;
@@ -85,9 +85,12 @@ interface dashboardProps {
     pendingTasks: number;
     overDueTasks: number;
     High: number;
-    Medium: number;
+    Normal: number;
     Low: number;
   };
+  openT: boolean;
+  setOpenT: (O: boolean) => void;
+  loading: boolean;
 }
 
 const dashboardContext = createContext<dashboardProps | null>(null);
@@ -105,11 +108,13 @@ export default function DashboardProvider({
 
   const [taskTitle, setTaskTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [startD, setStartD] = useState<Dayjs | null>(null);
+  const [startD, setStartD] = useState<Dayjs>(dayjs(new Date()));
   const [dueD, setDueD] = useState<Dayjs | null>(null);
-  const [taskPriority, setTaskPriority] = useState<"High" | "Medium" | "Easy">(
+  const [taskPriority, setTaskPriority] = useState<"High" | "Normal" | "Easy">(
     "Easy",
   );
+  const [openT, setOpenT] = useState(false);
+  const [loading, startTransition] = useTransition();
   const [details, setdetails] = useState({
     groups: 0,
     totalTasks: 0,
@@ -118,69 +123,37 @@ export default function DashboardProvider({
     pendingTasks: 0,
     overDueTasks: 0,
     High: 0,
-    Medium: 0,
+    Normal: 0,
     Low: 0,
   });
+  function loadData() {
+   // GET user details
+    loadD(setdetails);
+    // GET user Groups info    
+    loadG(setGroupInfo);
+    // GET tasks by priority
+    loadP(setTBP);
+    // GET the statistics of the bar chart.
+    loadS(setStatistics);
+      // GET the Recent Activities  
+    loadR(setRecentA);
+  }
 
   useEffect(() => {
-    // GET the statistics of the bar chart.
-    async function loadS() {
-      const res = await fetch("/api/dashboard/bar_chart");
-      const data = await res.json();
-      setStatistics(data.data);
-    }
-    // GET the Recent Activities
-    async function loadR() {
-      const res = await fetch("/api/dashboard/recent_activities");
-      const data = await res.json();
-      setRecentA(data.data);
-    }
-
-    // GET tasks by priority
-    async function loadP() {
-      const res = await fetch("/api/dashboard/priority");
-      const data = await res.json();
-      setTBP(data);
-    }
-
-    // GET user Groups info
-    async function loadG() {
-      const res = await fetch("/api/dashboard/Groups");
-      console.log(res);
-      const data = await res.json();
-      setGroupInfo(data.Groups);
-    }
-
-    // GET user details
-    async function loadD() {
-      const res = await fetch("/api/dashboard/statistics");
-      const data = await res.json();
-      setdetails(data.statistics);
-    }
-
-    loadD();
-    loadG();
-    loadP();
-    loadS();
-    loadR();
+    loadData();
   }, []);
 
   // Create New Task
-
+   function AddTask() {
   const snackBarContext = useSnackBar();
-
   if (!snackBarContext) return;
-
-  const { setType, setMessage, setOpen } = snackBarContext;
-
-  async function AddTask(setOpenT: (o: boolean) => void) {
+  const { setType, setMessage, setOpen } = snackBarContext;    
     if (taskTitle === "") {
       setType("info");
       setMessage("Please fill the title field.");
       setOpen(true);
       return;
     }
-
     const start = startD?.toDate();
     const due = dueD?.toDate();
 
@@ -190,7 +163,7 @@ export default function DashboardProvider({
       setOpen(true);
       return;
     }
-
+  startTransition( async()=>{
     try {
       const res = await fetch("/api/todo/add_new", {
         method: "POST",
@@ -211,13 +184,14 @@ export default function DashboardProvider({
         throw new Error(data.message || "Unexpected error");
       }
       setType("success");
-      setMessage("New task created successfylly");
+      setMessage("New task created successfully");
       setOpen(true);
+      loadData();
       setOpenT(false);
       setTaskPriority("Easy");
       setTaskTitle("");
       setDesc("");
-      setStartD(null);
+      setStartD(dayjs(new Date()));
       setDueD(null);
       return;
     } catch (err) {
@@ -232,7 +206,9 @@ export default function DashboardProvider({
       setMessage(error);
       setOpen(true);
       return;
-    }
+    }    
+  })
+
   }
 
   return (
@@ -256,6 +232,9 @@ export default function DashboardProvider({
         setTaskPriority,
         AddTask,
         details,
+        openT,
+        setOpenT,
+        loading,
       }}
     >
       {children}

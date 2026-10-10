@@ -16,7 +16,7 @@ export async function GET(Request: Request) {
       pendingTasks,
       overDueTasks,
       High,
-      Medium,
+      Normal,
       Low,
     ] = await Promise.all([
       prisma.group.count({
@@ -70,7 +70,7 @@ export async function GET(Request: Request) {
           pendingTasks: pendingTasks,
           overDueTasks: overDueTasks,
           High:High,
-          Medium:Medium,
+          Normal:Normal,
           Low:Low,
         },
       },

@@ -27,7 +27,7 @@ const TaskCompletionChart = () => {
         flexDirection: "column",
         alignItems: "flex-start",
         height: "100%",
-        boxShadow: "0px 0px 10px 1px #1f293799",
+        border: "solid 1px #1f29371f",
       }}
     >
       <Stack>
@@ -43,7 +43,7 @@ const TaskCompletionChart = () => {
           className="disabled"
           sx={{ fontSize: { xs: "11px", sm: "13px", md: "13px" } }}
         >
-          THIS WEEK
+          Last WEEK
         </Typography>
       </Stack>
       <ResponsiveContainer width="100%" height={300}>
@@ -56,8 +56,8 @@ const TaskCompletionChart = () => {
           <YAxis
             axisLine={false}
             tickLine={false}
-            domain={[0, 30]}
-            ticks={[0, 5, 10, 15, 20, 25, 30]}
+            domain={[0, 15]}
+            ticks={[0, 4,8,12,16]}
           />
           <Tooltip />
           <Legend />

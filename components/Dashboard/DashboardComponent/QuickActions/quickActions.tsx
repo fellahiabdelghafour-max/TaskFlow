@@ -4,11 +4,12 @@ import AddIcon from "@mui/icons-material/Add";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import AddTask from "../AddTask/addTask";
-import { useState } from "react";
+import { useDashboardContext } from "../../../../context/dashboard";
 
 export default function QuickActions() {
-  const [open, setOpen] = useState(false);
+  const dashboardContext = useDashboardContext();
+  if(!dashboardContext) return;
+  const {setOpenT} = dashboardContext;
   return (
     <Stack
       spacing={2}
@@ -16,19 +17,19 @@ export default function QuickActions() {
         bgcolor: "background.paper",
         borderRadius: "10px",
         p: 1,
-        boxShadow: "0px 0px 10px 1px #1f293799",
+        border: "solid 1px #1f29371f",
       }}
     >
-      <AddTask open={open} setOpen={setOpen} />
+      
       <Typography
         sx={{
           color: "text.secondary",
-          fontSize: { xs: 20, sm: 20, md: 20, lg: 30 },
+          fontSize: { xs: "11px", sm: "15px", md: "18px" },
         }}
       >
         Quick Actions
       </Typography>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" onClick={() => setOpenT(true)}>
         <Box>
           <AddIcon /> Add New Tasks
         </Box>

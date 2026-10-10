@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import OutlinedFlagOutlinedIcon from "@mui/icons-material/OutlinedFlagOutlined";
 import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -17,10 +16,15 @@ export default function LongMenu({
   status,
   overDue,
   id,
+  setOpenE,
+  setOpenD
 }: {
   status: "Pending" | "In_Progress" | "Completed";
   overDue: boolean;
   id: string;
+  setOpenE:(O:boolean)=>void;
+  setOpenD:(O:boolean)=>void;
+
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -28,7 +32,7 @@ export default function LongMenu({
   const tasksContext = useTodos();
   if (!tasksContext) return null;
 
-  const { changeStatus } = tasksContext;
+  const { changeStatus ,setSelectedTodoId} = tasksContext;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -68,28 +72,24 @@ export default function LongMenu({
       >
         <MenuItem
         onClick={()=>{changeStatus(id);handleClose()}}
-          className="disabled"
-          sx={{ display: status === "Pending" && !overDue ? "flex" : "none" }}
+          sx={{ display: status === "Pending" && !overDue ? "flex" : "none",color:'warning.main' }}
         >
           <RotateLeftOutlinedIcon /> In progress
         </MenuItem>
         <MenuItem
         onClick={()=>{changeStatus(id);handleClose()}}
-          className="disabled"
           sx={{
             display: status === "In_Progress" && !overDue ? "flex" : "none",
+            color:'success.main',
           }}
         >
-          <AddTaskOutlinedIcon /> Make as completed
+          <AddTaskOutlinedIcon /> completed
         </MenuItem>
-        <MenuItem onClick={handleClose} className="disabled">
+        <MenuItem sx={{display: !overDue && status !== 'Completed' ? "flex" : "none",color:'text.primary'}} onClick={()=>{setSelectedTodoId(id); setOpenE(true)}} >
           <EditOutlinedIcon /> Edite task
         </MenuItem>
-        <MenuItem onClick={handleClose} className="disabled">
-          <OutlinedFlagOutlinedIcon /> Change priority
-        </MenuItem>{" "}
-        <MenuItem onClick={handleClose} sx={{ color: "error.main" }}>
-          <DeleteForeverOutlinedIcon sx={{ filter: "none" }} /> Delte
+        <MenuItem sx={{ color: "error.main" }} onClick={()=>{setOpenD(true);handleClose();setSelectedTodoId(id);}}>
+          <DeleteForeverOutlinedIcon sx={{ filter: "none" }} /> Delete
         </MenuItem>
       </Menu>
     </div>

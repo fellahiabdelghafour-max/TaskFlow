@@ -176,7 +176,7 @@ export default function LatestUpdates() {
         background: "background.default",
         borderTop: "solid 3px rgba(0, 191, 255, 0.11)",
         borderBottom: "solid 3px rgba(0, 191, 255, 0.11)",
-        px:4
+        px: 4,
       }}
     >
       <Box
@@ -287,14 +287,14 @@ export default function LatestUpdates() {
                 }
               }}
             >
-              <Card>
+              <Card sx={{p:{xs:2,md:4}}}>
                 <Box
                   sx={{
                     background: "#007bff7a",
                     borderRadius: "10px",
                     width: 30,
                     height: 30,
-                    p: 2.3,
+                    p:2.3,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -312,7 +312,14 @@ export default function LatestUpdates() {
                 </Typography>
                 <Typography
                   className="disabled"
-                  sx={{ fontSize: { xs: "11px", sm: "15px", md: "13px" } }}
+                  sx={{
+                    fontSize: { xs: "11px", sm: "15px", md: "13px" },
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    overflow: "hidden",
+                    WebkitBoxOrient: "vertical",
+
+                  }}
                 >
                   {F.desc}
                 </Typography>

@@ -1,13 +1,17 @@
 "use client";
 import { Box, Stack, Tooltip, Typography } from "@mui/material";
-import { sidebarItems } from "../../../../context/dashboard";
+import { sidebarItems, useDashboardContext } from "../../../../context/dashboard";
 import { usePathname, useRouter } from "next/navigation";
+import AddIcon from '@mui/icons-material/Add';
 
 export default function DashboardItems() {
   const router = useRouter();
 
   const pathname = usePathname();
-  console.log(pathname);
+    const dashboardContext = useDashboardContext();
+  if(!dashboardContext) return;
+  const {setOpenT} = dashboardContext;
+  
   return (
     <>
       {sidebarItems.map((I, i) => (
@@ -64,6 +68,44 @@ export default function DashboardItems() {
           </Typography>
         </Stack>
       ))}
+            <Stack
+          sx={{
+            width: "100%",
+            px: 2,
+            alignItems: "center",
+            py: 1,
+            bgcolor: "#4400ff" ,
+            borderRadius: "8px",
+            overflow: "hidden",
+            transition: "all .4s ease",
+            boxShadow: "0px 0px 10px 3px rgba(0, 106, 255, 0.4)",
+
+            position: "relative",
+            "&:after": {
+              content: '""',
+              height: "80%",
+              width: "4px",
+              position: "absolute",
+              left: -0.5,
+              top: "10%",
+              bgcolor: "white",
+              transition: "transform .4s ease",
+              transformOrigin: "top",
+              borderRadius: "16px",
+            },
+            '&:hover' :{
+              cursor:'pointer'
+            }
+          }}
+
+        onClick={()=>setOpenT(true)}
+      >
+        <Tooltip title="Add todo" placement="top">
+          <Box component={"span"} sx={{ color: "secondary.main" }}>
+            <AddIcon/>
+          </Box>
+        </Tooltip>
+      </Stack>
     </>
   );
 }

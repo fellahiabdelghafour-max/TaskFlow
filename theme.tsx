@@ -17,9 +17,10 @@ export default function AppTheme({ children }: { children: ReactNode }) {
             paper: mode === "dark" ? "#001b3e" : "#ffffff",
           },
           secondary: { main: "#f8f8f8" },
-          primary: { main: mode === "dark" ? "#0073ff" : "#007bcd" },
-          warning: { main: mode === "dark" ? "#ffeba1" : "#ff9d00" },
-          success: { main: mode === "dark" ? "#a6ffc9" : "#1dae00a8" },
+          primary: { main: mode === "dark" ? "#0088ff" : "#007bcd" },
+          warning: { main: mode === "dark" ? "#ffcc00" : "#ff9d00" },
+          success: { main: mode === "dark" ? "#00a556" : "#1dad00" },
+          error:{main: mode === "dark" ? "#ff3f3f" : "#ff0000"},
           info: { main: mode === "dark" ? "rgb(168, 207, 255)" : "#00b3ff" },
           text: {
             primary: "#0073ff",
@@ -48,8 +49,11 @@ export default function AppTheme({ children }: { children: ReactNode }) {
                 borderRadius: "10px",
                 transition: "transform .3s ease",
                 color: "white",
-                "&:hover": {
-                  transform: "translatey(-10%)",
+                "@media (hover:hover) and (pointer:fine)": {
+                  '&:hover':{
+                    transform: "translateY(-10%)",
+                  }
+                  
                 },
               },
             },
@@ -57,37 +61,37 @@ export default function AppTheme({ children }: { children: ReactNode }) {
           MuiTypography: {
             styleOverrides: {
               root: {
-                textShadow: "3px 1px 5px #00000029",
                 textDecoration: "none",
                 fontWeight: 600,
               },
             },
           },
           MuiCard: {
-            styleOverrides: {
-              root: {
-                boxShadow: "0px 0px 5px 1px #00000029",
-                borderRadius: "16px",
-                transition: "all .4s ease",
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                gap: "10px",
-                padding: "32px",
-                border:
-                  mode === "dark"
-                    ? "solid 3px rgba(0, 191, 255, 0.11)"
-                    : "solid 1px rgb(222, 228, 244)",
-                "&:hover": {
-                  transform: "translateY(-3%)",
-                  border:
-                    mode === "dark"
-                      ? "solid 3px rgba(71, 209, 255, 0.76)"
-                      : "solid 2px rgba(0, 234, 255, 0.26)",
-                },
-              },
-            },
-          },
+  styleOverrides: {
+    root: {
+      borderRadius: "16px",
+      transition: "all .4s ease",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: "10px",
+      padding: "32px",
+      border:
+        mode === "dark"
+          ? "solid 3px rgba(0, 191, 255, 0.11)"
+          : "solid 1px rgb(222, 228, 244)",
+      "@media (hover:hover) and (pointer:fine)": {
+        '&:hover':{        transform: "translate(-3px, -3px)",
+        boxShadow: "6px 6px 0 #767676",
+        border:
+          mode === "dark"
+            ? "solid 3px rgba(71, 209, 255, 0.76)"
+            : "solid 2px rgba(0, 234, 255, 0.26)",},
+
+      },
+    },
+  },
+},
           MuiOutlinedInput: {
             styleOverrides: {
               root: {

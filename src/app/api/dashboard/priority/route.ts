@@ -14,7 +14,7 @@ export async function GET (Request:Request){
 
     const TasksByPriority = [
   { name: "High", value: 0, color: "#f56565" },
-  { name: "Medium", value: 0, color: "#f6ad55" },
+  { name: "Normal", value: 0, color: "#f6ad55" },
   { name: "Low", value: 0, color: "#48bb78" },
 ]; 
 

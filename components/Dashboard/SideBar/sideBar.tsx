@@ -22,6 +22,7 @@ export default function SideBar() {
         py: 2,
         px: 1,
         zIndex: 10,
+        borderRight:'1px solid #0e2542'
       }}
     >
       <Stack

@@ -18,31 +18,31 @@ export default function DashboardComponent() {
   const { details } = dashboardContext;
   const detail = [
     {
-      icon: <CheckBoxIcon />,
+      icon: <CheckBoxIcon  sx={{filter:'none'}}/>,
       title: "Total Tasks",
       description: "All tasks across your groups",
       statistics: `${details.totalTasks}`,
-      color: "#0062ff",
+      color: "primary.main",
       bg: "#b8e8ff5f",
     },
     {
-      icon: <DonutSmallIcon />,
+      icon: <DonutSmallIcon  sx={{filter:'none'}}/>,
       title: "In Progress",
       description: "Tasks currently in progress",
       statistics: `${details.inProgressTasks}`,
-      color: "#ff9100",
+      color: "warning.main",
       bg: "#ffe5b85f",
     },
     {
-      icon: <CheckCircleIcon />,
+      icon: <CheckCircleIcon  sx={{filter:'none'}}/>,
       title: "Completed",
       description: "Tasks completed so far",
       statistics: `${details.completedTasks}`,
-      color: "#00a556",
+      color: "success.main",
       bg: "#0b7e003a",
     },
     {
-      icon: <GroupsOutlinedIcon />,
+      icon: <GroupsOutlinedIcon  sx={{filter:'none'}}/>,
       title: "My Groups",
       description: "Groups you're part of",
       statistics: `${details.groups}`,

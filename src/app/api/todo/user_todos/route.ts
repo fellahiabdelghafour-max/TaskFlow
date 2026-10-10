@@ -4,6 +4,7 @@ export async function GET(request: Request) {
   const id = request.headers.get("x-user-id");
   const { searchParams } = new URL(request.url);
   const dateParam = searchParams.get("date");
+  const sortType = searchParams.get('sort') as "desc" | "asc";
 
   if (!id) {
     return Response.json({ message: "unAuthorized" }, { status: 403 });
@@ -24,7 +25,7 @@ export async function GET(request: Request) {
   const userTodos = await prisma.todo.findMany({
     where: {
       userId: id,
-      startsAt: {
+      expiresAt: {
         gte: startOfDay,
         lte: endOfDay,
       },
@@ -36,7 +37,11 @@ export async function GET(request: Request) {
         description:true,
         difficulty:true,
         status:true
-    }
+    },
+    take:5,
+    orderBy:{expiresAt:sortType},
+  
+    
   });
 
   return Response.json({ todos: userTodos }, { status: 200 });

@@ -1,11 +1,16 @@
+'use client'
 import { Box, Stack, Tooltip } from "@mui/material";
-import { sidebarItems } from "../../../../context/dashboard";
+import { sidebarItems, useDashboardContext } from "../../../../context/dashboard";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+  import AddIcon from '@mui/icons-material/Add';
 
 export default function Options() {
   const pathname = usePathname();
   const router = useRouter();
+    const dashboardContext = useDashboardContext();
+  if(!dashboardContext) return;
+  const {setOpenT} = dashboardContext;
 
   return (
     <Stack
@@ -65,15 +70,11 @@ export default function Options() {
           px: 2,
           alignItems: "center",
           py: 1,
-          bgcolor: "#006aff",
+          bgcolor: "#4400ff",
           borderRadius: "8px",
           overflow: "hidden",
           transition: "all .4s ease",
           boxShadow: "0px 0px 10px 3px rgba(0, 106, 255, 0.4)",
-          "&:hover": {
-            bgcolor: "#00ffd554",
-            cursor: "pointer",
-          },
           position: "relative",
           "&:after": {
             content: '""',
@@ -87,10 +88,12 @@ export default function Options() {
             borderRadius: "16px",
           },
         }}
+
+        onClick={()=>setOpenT(true)}
       >
         <Tooltip title="Add todo" placement="top">
           <Box component={"span"} sx={{ color: "secondary.main" }}>
-            +++
+            <AddIcon/>
           </Box>
         </Tooltip>
       </Stack>

@@ -16,17 +16,24 @@ export default function PriorityDonut() {
       sx={{
         bgcolor: "background.paper",
         width: "100%",
-        height:'100%',
+        height: "100%",
         p: 2,
         borderRadius: "10px",
-                boxShadow:'0px 0px 10px 1px #1f293799',
-
+        border: "solid 1px #1f29371f",
       }}
     >
-      <Typography sx={{ color: "text.secondary" }}>
+      <Typography sx={{ color: "text.secondary",fontSize: { xs: "11px", sm: "15px", md: "18px" }, }}>
         Tasks By Priority.
       </Typography>
-      <Typography color="warning" sx={{display:(TBP[0].value + TBP[1].value + TBP[2].value) === 0 ? 'flex' :'none'}}>No tasks yet.</Typography>
+      <Typography
+        color="warning"
+        sx={{
+          display:
+            TBP[0].value + TBP[1].value + TBP[2].value === 0 ? "flex" : "none",
+        }}
+      >
+        No tasks yet.
+      </Typography>
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
@@ -92,7 +99,7 @@ export default function PriorityDonut() {
                     color: "text.secondary",
                   }}
                 >
-                  ({Math.floor((D.value * 100) / totalTasks)}%)
+                  ({((D.value * 100) / totalTasks).toFixed(1)}%)
                 </Typography>
               </Stack>
             </Stack>
