@@ -29,7 +29,7 @@ interface StatisticsType {
 
 interface RecentActivities {
   task: string;
-  status:  "Completed" | 'Pending' | 'In_Progress';
+  status: "Completed" | "Pending" | "In_Progress";
   description: string;
   updatedAt: string;
   startsAt: string;
@@ -126,16 +126,17 @@ export default function DashboardProvider({
     Normal: 0,
     Low: 0,
   });
+  const snackBarContext = useSnackBar();
   function loadData() {
-   // GET user details
+    // GET user details
     loadD(setdetails);
-    // GET user Groups info    
+    // GET user Groups info
     loadG(setGroupInfo);
     // GET tasks by priority
     loadP(setTBP);
     // GET the statistics of the bar chart.
     loadS(setStatistics);
-      // GET the Recent Activities  
+    // GET the Recent Activities
     loadR(setRecentA);
   }
 
@@ -144,10 +145,9 @@ export default function DashboardProvider({
   }, []);
 
   // Create New Task
-   function AddTask() {
-  const snackBarContext = useSnackBar();
-  if (!snackBarContext) return;
-  const { setType, setMessage, setOpen } = snackBarContext;    
+  function AddTask() {
+    if (!snackBarContext) return;
+    const { setType, setMessage, setOpen } = snackBarContext;
     if (taskTitle === "") {
       setType("info");
       setMessage("Please fill the title field.");
@@ -163,52 +163,51 @@ export default function DashboardProvider({
       setOpen(true);
       return;
     }
-  startTransition( async()=>{
-    try {
-      const res = await fetch("/api/todo/add_new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          task: taskTitle,
-          desc,
-          startD: start,
-          dueD: due,
-          priority: taskPriority,
-        }),
-      });
-      const data = await res.json();
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/todo/add_new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: taskTitle,
+            desc,
+            startD: start,
+            dueD: due,
+            priority: taskPriority,
+          }),
+        });
+        const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Unexpected error");
+        if (!res.ok) {
+          throw new Error(data.message || "Unexpected error");
+        }
+        setType("success");
+        setMessage("New task created successfully");
+        setOpen(true);
+        loadData();
+        setOpenT(false);
+        setTaskPriority("Easy");
+        setTaskTitle("");
+        setDesc("");
+        setStartD(dayjs(new Date()));
+        setDueD(null);
+        return;
+      } catch (err) {
+        const error =
+          err instanceof Error
+            ? err.message
+            : typeof err === "string"
+              ? err
+              : "Unexpected error";
+
+        setType("error");
+        setMessage(error);
+        setOpen(true);
+        return;
       }
-      setType("success");
-      setMessage("New task created successfully");
-      setOpen(true);
-      loadData();
-      setOpenT(false);
-      setTaskPriority("Easy");
-      setTaskTitle("");
-      setDesc("");
-      setStartD(dayjs(new Date()));
-      setDueD(null);
-      return;
-    } catch (err) {
-      const error =
-        err instanceof Error
-          ? err.message
-          : typeof err === "string"
-            ? err
-            : "Unexpected error";
-
-      setType("error");
-      setMessage(error);
-      setOpen(true);
-      return;
-    }    
-  })
-
+    });
   }
 
   return (
