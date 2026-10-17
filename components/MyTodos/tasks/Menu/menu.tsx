@@ -17,13 +17,15 @@ export default function LongMenu({
   overDue,
   id,
   setOpenE,
-  setOpenD
+  setOpenD,
+  setOpenDT
 }: {
   status: "Pending" | "In_Progress" | "Completed";
   overDue: boolean;
   id: string;
   setOpenE:(O:boolean)=>void;
   setOpenD:(O:boolean)=>void;
+  setOpenDT:(O:boolean)=>void;
 
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -87,6 +89,9 @@ export default function LongMenu({
         </MenuItem>
         <MenuItem sx={{display: !overDue && status !== 'Completed' ? "flex" : "none",color:'text.primary'}} onClick={()=>{setSelectedTodoId(id); setOpenE(true)}} >
           <EditOutlinedIcon /> Edite task
+        </MenuItem>
+        <MenuItem sx={{color:'text.secondary'}} onClick={()=>{ setOpenDT(true);handleClose()}} >
+          {"? "} Details
         </MenuItem>
         <MenuItem sx={{ color: "error.main" }} onClick={()=>{setOpenD(true);handleClose();setSelectedTodoId(id);}}>
           <DeleteForeverOutlinedIcon sx={{ filter: "none" }} /> Delete

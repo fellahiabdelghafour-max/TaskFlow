@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         status:true
     },
     take:5,
-    orderBy:{expiresAt:sortType},
+    orderBy:[{expiresAt:sortType},{id:sortType}],
   
     
   });

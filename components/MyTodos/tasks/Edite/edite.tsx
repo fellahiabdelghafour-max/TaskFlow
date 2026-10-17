@@ -33,9 +33,7 @@ export default function EditeTask({
   const todoContext = useTodos();
   if (!todoContext) return;
 
-  const {
-    Edite,
-  } = todoContext;
+  const { Edite, loading } = todoContext;
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
@@ -60,10 +58,10 @@ export default function EditeTask({
 
       <DialogContent>
         <Stack spacing={3} sx={{ mt: 1 }}>
-          <UpdateTaskTitle/>
-          <UpdateTaskDesc/>
-          <UpdateTaskDate/>
-          <UpdateTaskP/>
+          <UpdateTaskTitle />
+          <UpdateTaskDesc />
+          <UpdateTaskDate />
+          <UpdateTaskP />
         </Stack>
       </DialogContent>
 
@@ -79,9 +77,14 @@ export default function EditeTask({
           >
             Cancel
           </Button>
-          <Button autoFocus variant="contained"
-          onClick={()=>Edite(setOpen,id)}
-          startIcon={<SaveIcon />}>
+          <Button
+            autoFocus
+            variant="contained"
+            onClick={() => Edite(setOpen, id)}
+            startIcon={<SaveIcon />}
+            loading={loading}
+            loadingPosition="start"
+          >
             Save
           </Button>
         </Stack>

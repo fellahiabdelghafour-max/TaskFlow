@@ -5,6 +5,7 @@ import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import NoResent from "./NoResent/NoResent";
 import ResentASkeleton from "./Skeleton/skeleton";
 import ResentCard from "./ResentCard/ResentCard";
+import Link from "next/link";
 
 export default function RecentActivities() {
   const dashboardContext = useDashboardContext();
@@ -38,6 +39,7 @@ export default function RecentActivities() {
         >
           Recent Activity
         </Typography>
+        <Link href={'/Dashboard/tasks/ResentActivities'} style={{textDecoration:'none'}}>
         <Stack
           direction={"row"}
           sx={{
@@ -51,9 +53,11 @@ export default function RecentActivities() {
             },
           }}
         >
-          <Typography>View all</Typography>
-          <ArrowForwardOutlinedIcon />
-        </Stack>
+          <Typography sx={{fontSize:{xs:11,sm:11,md:13}}}>View all</Typography>
+          <ArrowForwardOutlinedIcon sx={{ fontSize: {xs:13,sm:13,md:15} }} />
+        </Stack>        
+        </Link>
+
       </Stack>
       <Stack>
         {recentA?.map((R, i) => (

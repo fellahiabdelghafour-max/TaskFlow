@@ -50,7 +50,6 @@ export default async function loadG(
   ) => void,
 ) {
   const res = await fetch("/api/dashboard/Groups");
-  console.log(res);
   const data = await res.json();
   setGroupInfo(data.Groups);
 }

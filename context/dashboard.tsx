@@ -91,6 +91,7 @@ interface dashboardProps {
   openT: boolean;
   setOpenT: (O: boolean) => void;
   loading: boolean;
+  refreshKey:number
 }
 
 const dashboardContext = createContext<dashboardProps | null>(null);
@@ -105,7 +106,7 @@ export default function DashboardProvider({
   const [recentA, setRecentA] = useState<RecentActivities[] | null>(null);
   const [TBP, setTBP] = useState<TasksByPrioriy[] | null>(null);
   const [GroupInfo, setGroupInfo] = useState<GroupSummary[] | null>(null);
-
+  const [refreshKey,setRefreshKey] = useState(0);
   const [taskTitle, setTaskTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [startD, setStartD] = useState<Dayjs>(dayjs(new Date()));
@@ -183,6 +184,7 @@ export default function DashboardProvider({
         if (!res.ok) {
           throw new Error(data.message || "Unexpected error");
         }
+        setRefreshKey(p=>p+1);
         setType("success");
         setMessage("New task created successfully");
         setOpen(true);
@@ -234,6 +236,7 @@ export default function DashboardProvider({
         openT,
         setOpenT,
         loading,
+        refreshKey
       }}
     >
       {children}
@@ -280,4 +283,5 @@ export const sidebarItems = [
     icon: <SettingsOutlinedIcon />,
     href: "/Dashboard/settings",
   },
+  
 ];

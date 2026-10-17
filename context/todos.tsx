@@ -12,13 +12,16 @@ import loadTodos from "../hooks/load/Todos/some/some";
 import Progress from "../hooks/load/Todos/progress/progress";
 import loadUpcoming from "../hooks/load/Todos/upcoming/upcoming";
 
-interface TodoType {
+export interface TodoType {
   id: string;
   expiresAt: Date;
   task: string;
   description: string;
   difficulty: "High" | "Normal" | "Easy";
   status: "Completed" | "Pending" | "In_Progress";
+  updatedAt: Date;
+  author: { username: string; id: string; image: string };
+  group: { name: string };
 }
 
 interface TodosProps {
@@ -40,6 +43,7 @@ interface TodosProps {
   selectedTodoId: string;
   setSelectedTodoId: (S: string) => void;
   DeleteTodo: (O: (O: boolean) => void, id: string) => void;
+  DeleteAllTodos:(O:(O:boolean)=>void,ids:string[])=>void,
   sort: "asc" | "desc";
   setSort: (S: "asc" | "desc") => void;
   progress: { completed: number; total: number };
@@ -50,16 +54,18 @@ interface TodosProps {
     expiresAt: Date;
     difficulty: "Normal" | "High" | "Easy";
   }[];
+  loading:boolean;
+  refreshKey1:number;
 }
 
 const TodosContext = createContext<TodosProps | null>(null);
 
 export default function TodosProvider({ children }: { children: ReactNode }) {
   const snackBarContext = useSnackBar();
-  const [todos, setTodos] = useState<TodoType[] | null>(null);
+  const [todos, setTodos] = useState<TodoType[]>([]);
   const newDate = new Date();
   const [date, setDate] = useState<Date>(newDate);
-
+  const [refreshKey1,setRefreshKey1] = useState(0);
   const [taskTitle, setTaskTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [startD, setStartD] = useState<Dayjs>(dayjs(new Date()));
@@ -76,10 +82,11 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
   const [upcoming, setUpcoming] = useState<
     { task: string; expiresAt: Date; difficulty: "Normal" | "High" | "Easy" }[]
   >([]);
+  const [loading,setLoading] = useState(false);
 
   useEffect(() => {
-    loadTodos(date,sort,setTodos);
-    Progress(progressBy,setProgress);
+    loadTodos(date, sort, setTodos);
+    Progress(progressBy, setProgress);
     loadUpcoming(setUpcoming);
   }, [date, snackBarContext, sort, progressBy]);
 
@@ -94,6 +101,7 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
       console.log(res);
       if (!res.ok) throw new Error(data.message);
+      setRefreshKey1(p=>p+1);
       setMessage("Status changed successfully");
       setType("success");
       setOpen(true);
@@ -112,6 +120,7 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
   }
 
   async function Edite(setOpenE: (O: boolean) => void, id: string) {
+    setLoading(true);
     if (!snackBarContext) return;
     const { setMessage, setOpen, setType } = snackBarContext;
     const newStartDate = startD ? startD.toDate() : null;
@@ -134,6 +143,7 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message);
+      setRefreshKey1(p=>p+1);
       setMessage("Updated successfully");
       setType("success");
       setOpen(true);
@@ -155,10 +165,11 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
       setType("error");
       setOpen(true);
     }
+    setLoading(false);
   }
 
   async function DeleteTodo(setOpenD: (O: boolean) => void, id: string) {
-    console.log(id);
+    setLoading(true)
     if (!snackBarContext) return;
     const { setMessage, setOpen, setType } = snackBarContext;
 
@@ -170,6 +181,7 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message);
+      setRefreshKey1(p=>p+1);
       setMessage("Deleted Successfully");
       setType("success");
       setOpen(true);
@@ -186,6 +198,44 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
       setType("error");
       setOpen(true);
     }
+    setLoading(false)
+  }
+
+  async function DeleteAllTodos(setOpenD: (O: boolean) => void, ids: string[]) {
+    setLoading(true);
+    if (!snackBarContext) return;
+    const { setMessage, setOpen, setType } = snackBarContext;
+
+    try {
+      const res = await fetch(`/api/todo/deleteAll`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+      setRefreshKey1(p=>p+1);
+      setMessage("Deleted Successfully");
+      setType("success");
+      setOpen(true);
+      setOpenD(false);
+    } catch (err) {
+      const error =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : "Unexpected error";
+
+      setMessage(error);
+      setType("error");
+      setOpen(true);
+    }
+    setLoading(false);
   }
 
   return (
@@ -215,6 +265,9 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
         progressBy,
         setProgressBy,
         upcoming,
+        DeleteAllTodos,
+        loading,
+        refreshKey1
       }}
     >
       {children}
@@ -222,4 +275,6 @@ export default function TodosProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export const useTodos = () => useContext(TodosContext);
+export const 
+
+useTodos = () => useContext(TodosContext);

@@ -22,7 +22,6 @@ export async function middleware(request: NextRequest) {
 
     const newHeaders = new Headers(request.headers);
     newHeaders.set("x-user-id", userId);
-    console.log('done2')
 
     return NextResponse.next({ request: { headers: newHeaders } });
   } catch {

@@ -23,7 +23,7 @@ export default function Delete({
   const todoContext = useTodos();
   if (!todoContext) return;
 
-  const { DeleteTodo } = todoContext;
+  const { DeleteTodo,loading } = todoContext;
 
   return (
     <React.Fragment>
@@ -49,7 +49,7 @@ export default function Delete({
           <Button onClick={handleClose} autoFocus className="disabled">
             Cancel
           </Button>
-          <Button color={"error"} variant="contained" onClick={()=>{handleClose();DeleteTodo(setOpen,id)}}>
+          <Button color={"error"} variant="contained" onClick={()=>DeleteTodo(setOpen,id)} loading={loading} loadingPosition="start">
             Delete
           </Button>
         </DialogActions>

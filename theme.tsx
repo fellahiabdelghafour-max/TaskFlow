@@ -16,7 +16,7 @@ export default function AppTheme({ children }: { children: ReactNode }) {
             default: mode === "dark" ? "#001127" : "#f3faff",
             paper: mode === "dark" ? "#001b3e" : "#ffffff",
           },
-          secondary: { main: "#f8f8f8" },
+          secondary: { main: "#ffffff" },
           primary: { main: mode === "dark" ? "#0088ff" : "#007bcd" },
           warning: { main: mode === "dark" ? "#ffcc00" : "#ff9d00" },
           success: { main: mode === "dark" ? "#00a556" : "#1dad00" },
