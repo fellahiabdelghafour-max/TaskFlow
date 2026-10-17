@@ -159,7 +159,7 @@ export default function AllTodos({
           </Typography>
           <Button
             variant="outlined"
-            color="secondary"
+            color="error"
             sx={{ color: "error.main" }}
             disabled={selected.size === 0}
             onClick={() => setOpenDA(true)}
