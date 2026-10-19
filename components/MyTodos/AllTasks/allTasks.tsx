@@ -117,7 +117,16 @@ export default function AllTodos({
       </Typography>
 
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-        <Stack direction={"row"} spacing={1}>
+        <Box sx={{
+            display:'grid',
+            gridTemplateColumns:{
+                xs:"repeat(2,minmax(0px,1fr))",
+                sm:'repeat(2,minmax(0px,1fr))',
+                md:'repeat(3,minmax(0px,1fr))',
+                lg:'repeat(5,minmax(0px,1fr))',
+            },
+            gap:2,
+        }}>
           {["all", "completed", "pending", "inProgress", "overDue"].map(
             (B, i) => (
               <Button
@@ -149,11 +158,11 @@ export default function AllTodos({
               </Button>
             ),
           )}
-        </Stack>
+        </Box>
         <Stack direction={"row"} spacing={1} sx={{ alignItems: "center" }}>
           <Typography
             className="disabled"
-            sx={{ fontSize: { xs: 13, sm: 13, md: 15 } }}
+            sx={{ fontSize: { xs: 13, sm: 13, md: 15 }, display:{xs:'none',sm:'none',md:'block'} }}
           >
             {selected.size} tasks selected
           </Typography>
