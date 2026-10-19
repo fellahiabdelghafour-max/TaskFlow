@@ -49,7 +49,7 @@ export default function NavBar() {
         },
         alignItems: "center",
         position: "fixed",
-        bgcolor: blur ? "#000626f9" : "#00000000",
+        bgcolor: blur ? "#000626f9" : "#00062658",
         borderBottom: blur ? "solid 1px #2b3162cc" : "",
         transition: "all .3s ease",
         top: 0,

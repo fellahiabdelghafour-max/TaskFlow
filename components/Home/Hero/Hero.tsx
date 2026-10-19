@@ -103,7 +103,7 @@ export default function Hero() {
           }}
           className="title"
           sx={{
-            fontSize: { xs: "20px", sm: "40px", md: "30px", lg: 50 },
+            fontSize: { xs: "30px", sm: "40px", md: "50px", lg: 50 },
             fontWeight: 700,
           }}
         >
@@ -140,7 +140,7 @@ export default function Hero() {
             width: "100%",
           }}
         >
-          <Button variant="contained" onClick={()=>router.push('/Dashboard')}>
+          <Button variant="contained" sx={{display:'flex',gap:1}} onClick={()=>router.push('/Dashboard')}>
             Get Started Free <EastOutlinedIcon />
           </Button>
           <Button color="secondary" variant="outlined">
@@ -164,12 +164,12 @@ export default function Hero() {
           {subFeatures.map((SF, i) => (
             <Grid
               key={i}
-              size={{ xs: 6, md: 3 }}
+              size={{ xs: 5.5, md: 3 }}
               sx={{
                 display: "flex",
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
-                gap: "8px",
+                gap: "5px",
                 minWidth: 0,
               }}
             >
