@@ -48,7 +48,7 @@ export default function Login() {
       });
     });
     return () => ctx.revert();
-  }, [mode]);
+  }, []);
 
   if (!authContext) return;
   const { inInfo, setInInfo, login, loading } = authContext;

@@ -90,7 +90,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setUser(data.user);
       setMessage("Logged in Successfully");
       setType("success");
-      router.push("/");
+      router.push("/Dashboard");
     } catch (err) {
       const error =
         err instanceof Error
@@ -137,7 +137,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setUser(data.user);
       setMessage("Registration successful.");
       setType("success");
-      router.push("/");
+      router.push("/Dashboard");
     } catch (err) {
       console.log(err);
       const error =

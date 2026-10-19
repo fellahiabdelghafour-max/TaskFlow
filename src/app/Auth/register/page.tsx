@@ -49,7 +49,7 @@ export default function Register() {
       });
     });
     return () => ctx.revert();
-  }, [mode]);
+  }, []);
 
   if (!authContext) return;
   const { upInfo, setUpInfo, register, loading } = authContext;
